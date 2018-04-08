@@ -1,0 +1,35 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: enonic-xp
+  labels:
+    app: enonic-xp
+spec:
+  replicas: {{ .Values.replicaCount }}
+  template:
+    metadata:
+      labels:
+        app: enonic-xp
+        component: enonic-xp
+    spec:
+        containers:
+          - name: {{ .Chart.Name }}
+            image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+            imagePullPolicy: {{ .Values.image.pullPolicy }}
+            env:
+            - name: "CLUSTER_NAME"
+              value: "enonic-xp-cluster"
+            - name: "DISCOVERY_SERVICE"
+              value: "enonic-xp"
+            ports:
+            - containerPort: 8080
+              name: enonic-xp
+              protocol: TCP
+            volumeMounts:
+            - mountPath: "/xp"
+              name: exp-persistent-storage
+        volumes:
+          - name: exp-persistent-storage
+            gcePersistentDisk:
+              pdName: enonic-xp-pdisk
+              fsType: ext4

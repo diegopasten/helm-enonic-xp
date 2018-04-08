@@ -5,23 +5,25 @@
 replicaCount: 1
 
 image:
-  repository: nginx
-  tag: stable
-  pullPolicy: IfNotPresent
+  repository: gcr.io/kubernetes-181111/enonic-xp-image
+  tag: latest
+  pullPolicy: Always
 
-service:
-  type: ClusterIP
-  port: 80
+# service:
+#   type: LoadBalancer
+#   port: 80
+#   targetPort: 8080
+#   protocol: TCP
 
-ingress:
-  enabled: false
-  annotations: {}
+#ingress:
+#  enabled: false
+#  annotations: {}
     # kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
-  path: /
-  hosts:
-    - chart-example.local
-  tls: []
+#  path: /
+#  hosts:
+#    - chart-example.local
+#  tls: []
   #  - secretName: chart-example-tls
   #    hosts:
   #      - chart-example.local
