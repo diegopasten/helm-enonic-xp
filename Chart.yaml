@@ -1,7 +1,7 @@
 apiVersion: v1
 appVersion: "6.12.1"
 description: Web platform for building complex solutions, websites and blogs.
-name: enonic-xp-chart
+name: exp
 version: 0.1.0
 home: https://enonic.com
 sources:
