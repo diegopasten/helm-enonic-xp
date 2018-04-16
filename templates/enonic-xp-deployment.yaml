@@ -13,23 +13,22 @@ spec:
         component: {{ template "fullname" . }}
     spec:
         containers:
-          - name: {{ .Chart.Name }}
-            image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-            imagePullPolicy: {{ .Values.image.pullPolicy }}
-            env:
-            - name: "CLUSTER_NAME"
-              value: {{ template "fullname" . }}-cluster
-            - name: "DISCOVERY_SERVICE"
-              value: {{ template "fullname" . }}
-            ports:
-            - containerPort: 8080
-              name: {{ template "fullname" . }}
-              protocol: TCP
-            volumeMounts:
-            - mountPath: "/xp"
-              name: exp-persistent-storage
+           - name: {{ template "fullname" . }}
+             image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+             imagePullPolicy: Always
+             env:
+             - name: "CLUSTER_NAME"
+               value: "{{ template "fullname" . }}-cluster"
+             - name: "DISCOVERY_SERVICE"
+               value: "{{ template "fullname" . }}"
+             ports:
+             - containerPort: 8080
+               name: {{ template "fullname" . }}
+               protocol: TCP
+             volumeMounts:
+             - mountPath: "/xp"
+               name: {{ template "fullname" . }}
         volumes:
-          - name: exp-persistent-storage
-            gcePersistentDisk:
-              pdName: {{ template "fullname" . }}-pdisk
-              fsType: ext4
+          - name: {{ template "fullname" . }}
+            persistentVolumeClaim:
+             claimName: {{ template "fullname" . }}
