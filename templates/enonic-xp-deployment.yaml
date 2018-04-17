@@ -13,22 +13,27 @@ spec:
         component: {{ template "fullname" . }}
     spec:
         containers:
-           - name: {{ template "fullname" . }}
-             image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-             imagePullPolicy: Always
-             env:
-             - name: "CLUSTER_NAME"
-               value: "{{ template "fullname" . }}-cluster"
-             - name: "DISCOVERY_SERVICE"
-               value: "{{ template "fullname" . }}"
-             ports:
-             - containerPort: 8080
-               name: {{ template "fullname" . }}
-               protocol: TCP
-             volumeMounts:
-             - mountPath: "/xp"
-               name: {{ template "fullname" . }}
+          - name: {{ template "fullname" . }}
+            image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+            imagePullPolicy: Always
+            limits:
+            resources:
+                memory: "500Mi"
+              requests:
+                memory: "1Gi"
+            env:
+            - name: "CLUSTER_NAME"
+              value: "{{ template "fullname" . }}-cluster"
+            - name: "DISCOVERY_SERVICE"
+              value: "{{ template "fullname" . }}"
+            ports:
+            - containerPort: 8080
+              name: {{ template "fullname" . }}
+              protocol: TCP
+            volumeMounts:
+            - mountPath: "/xp"
+              name: {{ template "fullname" . }}
         volumes:
           - name: {{ template "fullname" . }}
             persistentVolumeClaim:
-             claimName: {{ template "fullname" . }}
+              claimName: {{ template "fullname" . }}
